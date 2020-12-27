@@ -91,7 +91,7 @@ namespace ysoserial.Helpers
 
         public static string XmlStringAttributeEscape(string text)
         {
-            return XmlStringHTMLEscape(text).Replace("\"","&#x22;");
+            return XmlStringHTMLEscape(text).Replace("\"", "&#x22;");
         }
 
         public static string JsonStringEscape(string text)
@@ -116,8 +116,16 @@ namespace ysoserial.Helpers
 
         public static String[] SplitCommand(string cmd)
         {
-            String[] result = cmd.Split(new char[] { ' ' }, 2);
-            return result;
+            var spaceIndex = cmd.IndexOf(' ');
+            if (spaceIndex == -1)
+            {
+                return new string[1] { cmd };
+            }
+
+            var command = cmd.Substring(0, spaceIndex);
+            var args = cmd.Substring(spaceIndex + 1);
+
+            return new string[2] { command, args };
         }
 
     }
